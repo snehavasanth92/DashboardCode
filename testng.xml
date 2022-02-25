@@ -5,6 +5,7 @@
         <classes>
             <class name="Dashboard.DashboardTC"></class>
             <class name="Dashboard.WidgetDashboardTC"></class>
+            <class name="Dashboard.InvalidLoginTC"></class>
 
         </classes>
 
