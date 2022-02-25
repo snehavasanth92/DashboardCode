@@ -1,8 +1,10 @@
 package Dashboard;
 
 import CommonFunctions.BaseMethods;
+import Enums.ConfigProperties;
 import Pojo.DashboardPage;
 import Pojo.LoginPage;
+import Utilities.ConfigReader;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -24,7 +26,7 @@ public class WidgetDashboardTC extends BaseMethods {
 
     @Test(description = "Checking with invalid login")
     public void invalidLogin() {
-        login("menna+testproject1@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.INVALIDUSERNAME),ConfigReader.get(ConfigProperties.INVALIDPASSWORD));
 
         LoginPage loginPage = new LoginPage();
         waitForElement(loginPage.getLoginErrorMessage());
@@ -33,7 +35,7 @@ public class WidgetDashboardTC extends BaseMethods {
 
     @Test(description = "Checking the Set As Home Page widget")
     public void successHomepageSetup() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
 
         Assert.assertEquals(driver.getTitle(), "Brains.App");
         dashboardPage = new DashboardPage();
@@ -46,7 +48,7 @@ public class WidgetDashboardTC extends BaseMethods {
 
     @Test(description = "Checking the Duplicate Dashboard widget")
     public void createDuplicateDashboard() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
 
         Assert.assertEquals(driver.getTitle(), "Brains.App");
         dashboardPage = new DashboardPage();

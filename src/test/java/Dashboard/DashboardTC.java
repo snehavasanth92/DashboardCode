@@ -1,7 +1,9 @@
 package Dashboard;
 
 import CommonFunctions.BaseMethods;
+import Enums.ConfigProperties;
 import Pojo.DashboardPage;
+import Utilities.ConfigReader;
 import io.qameta.allure.Description;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -9,6 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static Utilities.FakerUtility.getRandomDigitNumber;
 
 public class DashboardTC extends BaseMethods {
 
@@ -26,28 +30,30 @@ public class DashboardTC extends BaseMethods {
 
     @Test(description = "Checking the add feature")
     public void addFeature() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
         String expectedTitle = "Brains.App";
         String actualTitle = driver.getTitle();
         Assert.assertEquals(actualTitle, expectedTitle);
         dashboardPage = new DashboardPage();
         dashboardPage.clickAddButton();
         dashboardPage.clickValueTextFieldInAddSingularPopup();
-        dashboardPage.addValueInAddSingularPopup("121");
+        String value= getRandomDigitNumber(3);
+        dashboardPage.addValueInAddSingularPopup(value);
         dashboardPage.clickSubmitButton();
 
         waitForElement(dashboardPage.getSuccessMessageInAddSingularPopup());
         Assert.assertEquals(dashboardPage.getSuccessMessageInAddSingularPopup().getText(), "Successfully added a new data entry");
 
         waitForElement(dashboardPage.getValueUpdateInAddSingularPopup());
-        Assert.assertEquals(dashboardPage.getValueUpdateInAddSingularPopup().getText(), "121");
+        Assert.assertEquals(dashboardPage.getValueUpdateInAddSingularPopup().getText(), value);
 
 
     }
 
     @Test(description = "Checking the edit feature")
     public void editFeature() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
         String expectedTitle = "Brains.App";
         String actualTitle = driver.getTitle();
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -59,18 +65,19 @@ public class DashboardTC extends BaseMethods {
         actions.click(dashboardPage.getSecondValueTextFieldInMaterialModelPopup())
                 .keyDown(Keys.CONTROL).sendKeys("a")
                 .keyUp(Keys.CONTROL).sendKeys(Keys.BACK_SPACE).build().perform();
-        dashboardPage.addValueInMaterialModelPopup("150");
+        String value= getRandomDigitNumber(3);
+        dashboardPage.addValueInMaterialModelPopup(value);
         dashboardPage.clickTickMark();
 
         waitForElement(dashboardPage.getSuccessMessageInMaterialModelPopup());
         Assert.assertEquals(dashboardPage.getSuccessMessageInMaterialModelPopup().getText(), "Successfully updated a data entry");
 
-        Assert.assertEquals(dashboardPage.getValueUpdateInMaterialModelPopup().getText(), "150");
+        Assert.assertEquals(dashboardPage.getValueUpdateInMaterialModelPopup().getText(), value);
     }
 
     @Test(description = "Checking the add feature without value")
     public void addFeatureWithoutValue() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
         String expectedTitle = "Brains.App";
         String actualTitle = driver.getTitle();
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -84,7 +91,7 @@ public class DashboardTC extends BaseMethods {
 
     @Test(description = "Checking the add feature with Existing value")
     public void addFeatureWithExistingValue() {
-        login("menna+testproject@intellisense.io", "AutMaNewTest1#");
+        login(ConfigReader.get(ConfigProperties.USERNAME),ConfigReader.get(ConfigProperties.PASSWORD));
         String expectedTitle = "Brains.App";
         String actualTitle = driver.getTitle();
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -92,7 +99,8 @@ public class DashboardTC extends BaseMethods {
         waitForInvisible(dashboardPage.getSuccessMessageInAddSingularPopup());
         dashboardPage.clickAddButton();
         dashboardPage.clickValueTextFieldInAddSingularPopup();
-        dashboardPage.addValueInAddSingularPopup("101");
+        String value= getRandomDigitNumber(3);
+        dashboardPage.addValueInAddSingularPopup(value);
         dashboardPage.clickSubmitButton();
 
         waitForElement(dashboardPage.getExitValueFailedMessageInAddSingularPopup());
